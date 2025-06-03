@@ -2,13 +2,41 @@ body {
  margin: 0;
  font-family: sans-serif;
  padding: 0;
+ color: #333;
+ font-size: 14px;
 }
 .tab {
-	border: 1px solid black;
-	padding: 1em;
-	font-size: 15px;
+	padding: .8em;
+	font-size: 14px;
 	color: #337ab7;
 }
 .tab:hover {
 	background-color: #eee;
+}
+.icon-space {
+	margin-left: 0.3em;
+}
+.tabBug {
+	border: 1px solid black;
+	padding: 0.85em 2em;
+	padding-left: 2.3em;
+	padding-right: .5em;
+	font-size: 14px;
+	color: #337ab7;
+}
+.tabBug:hover {
+	background-color: #eee;
+}
+.floatRight {
+	float: right;
+}
+.blue {
+	color: #337ab7;
+}
+.horizontal-rule {
+	border: none;
+	border-top: 1px solid #eeeeee;
+	margin: 1em 0;
+	width: 100%;
+	margin-right: 0em;
 }
