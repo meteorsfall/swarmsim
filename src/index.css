@@ -61,3 +61,23 @@ body {
 	display: flex;
 	align-items: center;
 }
+.bug-description {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	margin-top: .9em;
+	font-size: 14px;
+	color: #333;
+}
+.page-layout {
+	display: flex;
+	flex-direction: column;
+	margin-left: 1em;
+	margin-top: .2em;
+	width: 100%;
+}
+.page-name {
+	margin-top: .65em;
+	margin-left: 0em;
+	font-size: 24px;
+}

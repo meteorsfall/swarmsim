@@ -58,9 +58,12 @@ const initialState = {
 	"Hive Network": {
 		quantity: 28149,
 		faster: 1,
+		twin: 0,
 	},
 	"Lesser Hive Mind":{
 		quantity: 0,
+		faster: 0,
+		twin: 0,
 	},
 };
 

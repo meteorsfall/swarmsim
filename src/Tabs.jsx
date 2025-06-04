@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './index.css';
 import Pages from './Pages';
-import { bugNames } from './constants';
+import { bugNames, bugCards } from './constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectResources, updateResource, store, formatSwarmNumber } from '../store/store';
 import { selectBugAttr } from '../store/bugsSlice';
@@ -13,10 +13,12 @@ export default function Tabs() {
 	const dispatch = useDispatch();
 	const showIcons = [false, false, true, true, true, true, true, true, true, true, false];
 	const namedAmount = (key) => formatSwarmNumber(combined[key]);
+	const [pageIndex, setPageIndex] = useState(3);
 
-	function Bug({name, quantity, showIcon = false}) {
+	function Bug({bugIndex, quantity, showIcon = false}) {
+		const bug = bugNames[bugIndex];
 		return (
-			<div className="tabBug"
+			<div className="tabBug" onClick={() => setPageIndex(bugIndex)}
 				style={{
 					position: 'relative',
 					borderLeft: 'none',
@@ -29,7 +31,7 @@ export default function Tabs() {
 					paddingRight: '1em',
 					width: '210px',
 				}}>
-				{name}
+				{bug}
 				<span className="floatRight"> {quantity} </span>
 				<div>
 			<i class="fa-solid fa-circle-arrow-up"
@@ -53,7 +55,7 @@ export default function Tabs() {
 					flexDirection: 'row',
 					borderBottom: '1px solid #dddddd',
 				}}>
-				<div className="tab" style={{color: '#555'}}> 59.7TTg meat
+				<div className="tab" style={{color: '#555'}}> {namedAmount("Meat")} meat
 					<i class="fa-solid fa-circle-arrow-up icon-space"></i>
 				</div>
 				<div className="tab"> {namedAmount("Larvae")} larvae </div>
@@ -74,10 +76,10 @@ export default function Tabs() {
 						border: 'none',
 					}}>
 					{bugNames.map((bug, i) => (
-						<Bug key={i} name={bug} quantity={namedAmount(bug)} showIcon={showIcons[i]} />
+						<Bug key={i} bugIndex={i} quantity={namedAmount(bug)} showIcon={showIcons[i]} />
 					))}
 				</div>
-				<Pages bugIndex={3}/>
+				<Pages bugIndex={pageIndex}/>
 			</div>
 		</div>
 			)

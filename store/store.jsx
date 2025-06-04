@@ -7,7 +7,7 @@ export function formatSwarmNumber(num, isLong=false) {
 	if (isLong){
 		sigFigs = 6;
 	}
-  if (num < 1000) return num.toFixed(3).replace(/\.?0+$/, '');
+  if (num < 100000) return num.toLocaleString();
 
 	const power = Math.floor(Math.log10(num) / 3);
 	const unit = UNITS[power] || '';
@@ -21,7 +21,6 @@ export function formatSwarmNumber(num, isLong=false) {
 
 
 const initialState = {
-	"Meat": 174e102,
 	"Larvae": 21.1e15,
 	"Territory": 85.4e72,
 	"Energy": 150000,

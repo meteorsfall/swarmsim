@@ -16,28 +16,41 @@ export default function Pages({bugIndex}) {
 	const fasterAmount = 66*(666 ** faster);
 	const formattedFasterAmount = formatSwarmNumber(fasterAmount);
 
-	const hive_neuron = ["You own 46.0680 quintillion hive neurons.", "Each produces 2,357 neuroprophets per second. (x261 bonus)", "In total, they produce 108.601 sextillion neuroprophets per second.", "You earn 177.766 million hive neurons per second."]
 
 	function Description(){
-		const production = bugCards['Hive Neuron'].production * (2 ** faster);
+		const production = bugCards[bug].production;
+		const modifiedProduction = bugCards[bug].production * (2 ** faster);
+		const parentFaster = useSelector(selectBugAttr(parent, "faster"));
 
-		return (
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '1em',
-					marginTop: '.9em',
-					fontSize: '14px',
-					color: '#333',
-				}}>
-				<div> {bugCards['Hive Neuron'].description } </div>
-				<div> You own {formatSwarmNumber(bugAmount, true)} {bug.toLowerCase()}s. </div>
-				<div> Each produces {formatSwarmNumber(production, true)} {child.toLowerCase()}s per second (x{2 ** faster} bonus) </div>
-				<div> In total, they produce {formatSwarmNumber(bugAmount * production, true)} {child.toLowerCase()}s per second. </div>
-				<div> You earn </div>
-			</div>
-		)
+		if (bug === "Meat"){
+			return (
+				<div className="bug-description">
+					<div> {bugCards[bug].description} </div>
+					<div> You own {formatSwarmNumber(bugAmount, true)} {bug.toLowerCase()}s. </div>
+					<div> You earn {formatSwarmNumber(parentAmount*(2 ** parentFaster), true) } {bug.toLowerCase()} per second. </div>
+				</div>
+			)
+		}
+		else if (bugIndex === 0){
+			return (
+				<div className="bug-description">
+					<div> {bugCards[bug].description} </div>
+					<div> You own no {bug.toLowerCase()}s. </div>
+					<div> Each produces {production} {child}s per second. </div>
+				</div>
+			)
+		}
+		else {
+			return (
+				<div className="bug-description">
+					<div> {bugCards[bug].description } </div>
+					<div> You own {formatSwarmNumber(bugAmount, true)} {bug.toLowerCase()}s. </div>
+					<div> Each produces {formatSwarmNumber(production, true)} {child.toLowerCase()}s per second (x{2 ** faster} bonus) </div>
+					<div> In total, they produce {formatSwarmNumber(bugAmount * modifiedProduction, true)} {child.toLowerCase()}s per second. </div>
+					<div> You earn {formatSwarmNumber(parentAmount*(bugCards[bug].production+1)*(2 ** parentFaster), true) } {bug.toLowerCase()}s per second. </div>
+				</div>
+			)
+		}
 	}
 
 	function GrowButton({text}){
@@ -64,6 +77,9 @@ export default function Pages({bugIndex}) {
 			return str.charAt(0).toUpperCase() + str.slice(1);
 		}
 
+		if (bugIndex == 0){
+			return (<></>)
+		}
 		return (
 			<div style={{marginTop: '.6em'}}>
 				<div style={{display: 'flex', flexDirection: 'column', gap: '1em'}}>
@@ -93,6 +109,10 @@ export default function Pages({bugIndex}) {
 		const formattedTwinAmount = formatSwarmNumber(twinAmount);
 		const percent = (100*Math.min(1, parentAmount/twinAmount)*100).toFixed(0);
 
+		if (bugIndex === 0){
+			return (<></>)
+		}
+
 		return (
 			<div style={{marginTop: '.6em'}}>
 				<div style={{display: 'flex', flexDirection: 'column', gap: '1em'}}>
@@ -116,27 +136,28 @@ export default function Pages({bugIndex}) {
 
 	}
 
-
-	return (
-		<div
-			style={{
-				display:'flex',
-				flexDirection:'column',
-				marginLeft: '1em',
-				marginTop: '.2em',
-				width: '100%',
-			}}>
+	function PageBeginning() {
+		return (
 			<div>
-				<div className="blue"
-					style={{
-						marginTop: '.65em',
-						marginLeft: '0em',
-						fontSize: '24px'
-					}}>
+				<div className="blue page-name" >
 					{bug}
 				</div>
 				<Description />
 			</div>
+		)
+	}
+
+	if (bug === "Meat"){
+		return (
+			<div className="page-layout">
+				<PageBeginning />
+			</div>
+		)
+	}
+
+	return (
+		<div className="page-layout">
+			<PageBeginning />
 			<hr className="horizontal-rule" style={{marginTop: '1.5em'}}/>
 		<div style={{marginTop: '.7em'}}>
 			<div>
@@ -151,7 +172,7 @@ export default function Pages({bugIndex}) {
 							width: '190px',
 					}}>
 					</input> </span>
-					hive neuron (x256 twins) will cost 38.7Qa meat, 1.00B neuroprophets, and 1 larva.
+					{bug.toLowerCase()} (x{formatSwarmNumber(2 ** faster)} twins) will cost {formatSwarmNumber(bugCards[bug].costMeat)} meat, {formatSwarmNumber(bugCards[bug].cost)} {child.toLowerCase()}, and 1 larva.
 				</div>
 				<div
 				style={{
@@ -159,7 +180,7 @@ export default function Pages({bugIndex}) {
 					display: 'flex',
 					flexDirection: 'row'
 				}}>
-					<GrowButton text="1,024" />
+					<GrowButton text= {formatSwarmNumber(2 ** faster)} />
 					<GrowButton text="55.7Qi" />
 					<GrowButton text="226Qi" />
 				</div>
@@ -173,7 +194,7 @@ export default function Pages({bugIndex}) {
 				marginBottom: '4em',
 				marginTop: '.3em',
 			}}>
-		<div style={{fontSize: '18px', marginBottom: '0em'}}>Upgrades</div>
+				<div style={{fontSize: '18px', marginBottom: '0em'}}>Upgrades</div>
 				<ProgressBarFaster text="4,910 years"/>
 				<ProgressBarTwin text="2,213 years"/>
 			</div>
