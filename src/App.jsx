@@ -1,10 +1,25 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import Header from './Header';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Tabs from './Tabs';
+import './index.css';
+import { bugNames, bugCards } from './constants';
+import { selectResources, updateResource, store, formatSwarmNumber } from '../store/store';
+import { selectBugAttr, incrementBugQuantities } from '../store/bugsSlice';
+
 
 export default function App() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			dispatch(incrementBugQuantities());
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [dispatch]);
+
 	return (
 		<div
 			style={{

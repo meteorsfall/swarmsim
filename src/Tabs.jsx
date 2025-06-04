@@ -2,11 +2,17 @@ import React, {useState} from 'react';
 import './index.css';
 import Pages from './Pages';
 import { bugNames } from './constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectResources, updateResource, store, formatSwarmNumber } from '../store/store';
+import { selectBugAttr } from '../store/bugsSlice';
 
 export default function Tabs() {
-
-	const quantities = ["0", "28,149", "84.2M", "100T", "954Qi", "49.0Oc", "16.1UDc", "25.0QaDc", "158SpDc", "9.53UVi", "1.75QiVi", "6.86NVi", "174TTg"]
-	const showIcons = [false, false, true, true, true, true, true, true, true, true, false]
+	const resources = useSelector(selectResources);
+	const bug_quantities = Object.fromEntries(bugNames.map((bug) => [bug, useSelector(selectBugAttr(bug, "quantity"))]));
+	const combined = { ...resources, ...bug_quantities};
+	const dispatch = useDispatch();
+	const showIcons = [false, false, true, true, true, true, true, true, true, true, false];
+	const namedAmount = (key) => formatSwarmNumber(combined[key]);
 
 	function Bug({name, quantity, showIcon = false}) {
 		return (
@@ -50,12 +56,12 @@ export default function Tabs() {
 				<div className="tab" style={{color: '#555'}}> 59.7TTg meat
 					<i class="fa-solid fa-circle-arrow-up icon-space"></i>
 				</div>
-				<div className="tab"> 21.1Qa larvae </div>
-				<div className="tab"> 85.4TVi territory
+				<div className="tab"> {namedAmount("Larvae")} larvae </div>
+				<div className="tab"> {namedAmount("Territory")} territory
 					<i class="fa-solid fa-circle-arrow-up icon-space"></i>
 				</div>
-				<div className="tab"> 150K energy (69%) </div>
-				<div className="tab"> 8.32T mutagen (+10.9B) </div>
+				<div className="tab"> {namedAmount("Energy")} energy (69%) </div>
+				<div className="tab"> {namedAmount("Mutagen")} mutagen (+10.9B) </div>
 				<div className="tab"> More... </div>
 			</div>
 			<div style={{display: 'flex', flexDirection: 'row'}}>
@@ -68,10 +74,10 @@ export default function Tabs() {
 						border: 'none',
 					}}>
 					{bugNames.map((bug, i) => (
-						<Bug key={i} name={bug} quantity={quantities[i]} showIcon={showIcons[i]} />
+						<Bug key={i} name={bug} quantity={namedAmount(bug)} showIcon={showIcons[i]} />
 					))}
 				</div>
-				<Pages />
+				<Pages bugIndex={3}/>
 			</div>
 		</div>
 			)

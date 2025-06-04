@@ -1,11 +1,44 @@
 import React, { useState } from 'react';
 import './index.css';
-import { bugNames } from './constants';
+import { bugNames, bugCards } from './constants';
+import {useSelector} from 'react-redux';
+import { selectResources, updateResource, store, formatSwarmNumber } from '../store/store';
+import { selectBugAttr } from '../store/bugsSlice';
 
-export default function Pages() {
-	const hive_neuron = ["Neurons are the building blocks of a greater hive intelligence.", "You own 46.0680 quintillion hive neurons.", "Each produces 2,357 neuroprophets per second. (x261 bonus)", "In total, they produce 108.601 sextillion neuroprophets per second.", "You earn 177.766 million hive neurons per second."]
-	const faster_neurons = ["Faster Hive Neurons (7)", "Hive neurons produce more neuroprophets.", <> Next upgrade costs <span className='blue'> 3.83Sx hive neurons</span> . </>]
-	const twin_neurons = ["Twin Hive Neurons (12)", "Multiple hive neurons are created from each larva. (This does not affect neural cluster production.)", <> Next upgrade costs <span className='blue'>1.00T neural clusters</span>. </>]
+
+export default function Pages({bugIndex}) {
+	const bug = bugNames[bugIndex];
+	const parent=bugNames[bugIndex-1];
+	const bugAmount = useSelector(selectBugAttr(bug, "quantity"));
+	const parentAmount = useSelector(selectBugAttr(parent, "quantity"));
+	const child=bugNames[bugIndex+1];
+	const faster = useSelector(selectBugAttr(bug, "faster"));
+	const fasterAmount = 66*(666 ** faster);
+	const formattedFasterAmount = formatSwarmNumber(fasterAmount);
+
+	const hive_neuron = ["You own 46.0680 quintillion hive neurons.", "Each produces 2,357 neuroprophets per second. (x261 bonus)", "In total, they produce 108.601 sextillion neuroprophets per second.", "You earn 177.766 million hive neurons per second."]
+
+	function Description(){
+		const production = bugCards['Hive Neuron'].production * (2 ** faster);
+
+		return (
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '1em',
+					marginTop: '.9em',
+					fontSize: '14px',
+					color: '#333',
+				}}>
+				<div> {bugCards['Hive Neuron'].description } </div>
+				<div> You own {formatSwarmNumber(bugAmount, true)} {bug.toLowerCase()}s. </div>
+				<div> Each produces {formatSwarmNumber(production, true)} {child.toLowerCase()}s per second (x{2 ** faster} bonus) </div>
+				<div> In total, they produce {formatSwarmNumber(bugAmount * production, true)} {child.toLowerCase()}s per second. </div>
+				<div> You earn </div>
+			</div>
+		)
+	}
 
 	function GrowButton({text}){
 		return (
@@ -18,46 +51,34 @@ export default function Pages() {
 					width: '282px',
 					height: '30px',
 				}}>
-				Grow 1,024
+				Grow {text}
 			</div>
 		)
 	}
 
-	function ProgressBar({text, percent, description}){
+	function ProgressBarFaster({text}){
+		const percent = (100*Math.min(1, bugAmount/fasterAmount)).toFixed(0);
+
+		function capitalizeFirst(str) {
+			str = str.toLowerCase();
+			return str.charAt(0).toUpperCase() + str.slice(1);
+		}
+
 		return (
 			<div style={{marginTop: '.6em'}}>
 				<div style={{display: 'flex', flexDirection: 'column', gap: '1em'}}>
-				{description.map((sentence, i) => (<div> {sentence} </div>))}
+					<div> Faster {bug}s ({faster}) </div>
+					<div> {capitalizeFirst(bug)}s produce more {child.toLowerCase()}s. </div>
+					<div> Next upgrade costs <span className='blue'> {formattedFasterAmount} {bug.toLowerCase()}s. </span> </div>
 				</div>
 				<div>
-					<div
-					style={{
-						border: '1px solid #dedede',
-						marginTop: '1em',
-						backgroundColor: '#f5f5f5'
-					}}>
-						<div
-							style={{
-								backgroundColor: '#337ab7',
-								color: 'white',
-								width: percent,
-								textAlign: 'center',
-								textShadow: '-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black',
-								fontSize: '12px',
-							}}>
-							{text}
+					<div className="progress-bar-entire" >
+						<div className="progress-bar-color"
+							style={{width: `${percent}%` }}>
+							{percent}% {text}
 						</div>
 					</div>
-					<div
-						style={{
-							border: '1px solid #dedede',
-							borderTop: 'none',
-							height: '2.5em',
-							color: '#7a7a7a',
-							justifyContent: 'center',
-							display: 'flex',
-							alignItems: 'center',
-						}}>
+					<div className="progress-bar-bottom" >
 						Can't buy
 					</div>
 				</div>
@@ -65,6 +86,36 @@ export default function Pages() {
 		)
 
 	}
+
+	function ProgressBarTwin({text}){
+		const twin = useSelector(selectBugAttr(bug, "twin"));
+		const twinAmount = 10**(twin);
+		const formattedTwinAmount = formatSwarmNumber(twinAmount);
+		const percent = (100*Math.min(1, parentAmount/twinAmount)*100).toFixed(0);
+
+		return (
+			<div style={{marginTop: '.6em'}}>
+				<div style={{display: 'flex', flexDirection: 'column', gap: '1em'}}>
+					<div> Twin {bug}s ({twin}) </div>
+					<div> Multiple {bug.toLowerCase()}s are created from each larva. (This does not affect {parent.toLowerCase()} production.) </div>
+					<div> Next upgrade costs <span className='blue'> {formattedTwinAmount} neural clusters </span> </div>
+				</div>
+
+				<div>
+					<div className="progress-bar-entire" >
+						<div className="progress-bar-color" style={{width: '${percent}%'}}>
+							{text}
+						</div>
+					</div>
+					<div className="progress-bar-bottom" >
+						Can't buy
+					</div>
+				</div>
+			</div>
+		)
+
+	}
+
 
 	return (
 		<div
@@ -82,21 +133,9 @@ export default function Pages() {
 						marginLeft: '0em',
 						fontSize: '24px'
 					}}>
-					Hive Neuron
+					{bug}
 				</div>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '1em',
-						marginTop: '.9em',
-						fontSize: '14px',
-						color: '#333',
-					}}>
-					{hive_neuron.map((sentence, i) => (
-						<div> {sentence} </div>
-					))}
-				</div>
+				<Description />
 			</div>
 			<hr className="horizontal-rule" style={{marginTop: '1.5em'}}/>
 		<div style={{marginTop: '.7em'}}>
@@ -120,9 +159,9 @@ export default function Pages() {
 					display: 'flex',
 					flexDirection: 'row'
 				}}>
-					<GrowButton text="Grow 1,024" />
-					<GrowButton text="Grow 55.7Qi" />
-					<GrowButton text="Grow 226Qi" />
+					<GrowButton text="1,024" />
+					<GrowButton text="55.7Qi" />
+					<GrowButton text="226Qi" />
 				</div>
 			</div>
 			<hr className="horizontal-rule"
@@ -135,8 +174,8 @@ export default function Pages() {
 				marginTop: '.3em',
 			}}>
 		<div style={{fontSize: '18px', marginBottom: '0em'}}>Upgrades</div>
-				<ProgressBar text="42% 4,910 years" percent='42%' description={faster_neurons} />
-				<ProgressBar text="90% 2,213 years" percent='90%' description={twin_neurons} />
+				<ProgressBarFaster text="4,910 years"/>
+				<ProgressBarTwin text="2,213 years"/>
 			</div>
 		</div>
 

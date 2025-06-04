@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+import { bugNames } from './constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectQuantities, updateQuantity, store, formatSwarmNumber } from '../store/store';
 
 export default function Header() {
 	return (
