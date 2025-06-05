@@ -37,11 +37,15 @@ const resourcesSlice = createSlice({
 		},
 		setResources: (state, action) => {
 			state = action.payload;
+		},
+		changeResource: (state, action) => {
+			const {name, diff } = action.payload;
+			state[name] += diff;
 		}
 	}
 });
 
-export const { updateResource, setResources } = resourcesSlice.actions;
+export const { updateResource, setResources, changeResource } = resourcesSlice.actions;
 export const selectResources = state => state.resources;
 
 export const store = configureStore({

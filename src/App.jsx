@@ -15,7 +15,7 @@ export default function App() {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			dispatch(incrementBugQuantities());
-		}, 10000);
+		}, 100);
 
 		return () => clearInterval(interval);
 	}, [dispatch]);

@@ -18,7 +18,7 @@ export default function Tabs() {
 	function Bug({bugIndex, quantity, showIcon = false}) {
 		const bug = bugNames[bugIndex];
 		return (
-			<div className="tabBug" onClick={() => setPageIndex(bugIndex)}
+			<div className={`tabBug ${pageIndex === bugIndex ? 'active' : ''}`} onClick={() => setPageIndex(bugIndex)}
 				style={{
 					position: 'relative',
 					borderLeft: 'none',

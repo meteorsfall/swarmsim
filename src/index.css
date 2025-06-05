@@ -23,8 +23,13 @@ body {
 	padding-right: .5em;
 	font-size: 14px;
 	color: #337ab7;
+	background-color: white;
+	cursor: pointer;
 }
 .tabBug:hover {
+	background-color: #eee;
+}
+.tabBug.active {
 	background-color: #eee;
 }
 .floatRight {
@@ -80,4 +85,26 @@ body {
 	margin-top: .65em;
 	margin-left: 0em;
 	font-size: 24px;
+}
+.button {
+	display: flex;
+	border: 1px solid #ccc;
+	align-items: center;
+	justify-content: center;
+	width: 282px;
+	height: 30px;
+	background-color: white;
+	cursor: pointer;
+}
+.button:hover {
+	background-color: #eee;
+}
+.grow-button-zero {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 282px;
+	height: 30px;
+	border: 1px solid #dedede;
+	color: #7a7a7a;
 }
