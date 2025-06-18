@@ -14,6 +14,43 @@ import { ProgressBarFaster, ProgressBarTwin } from "./ProgressBar";
 import computedStats from "./computedStats";
 import ButtonsArray, { ButtonTemplate } from "./ButtonsArray";
 
+function GrowButton({ amount, widthMultiple, bugIndex }) {
+  const dispatch = useDispatch();
+  const {
+    bug,
+    child,
+    childAmount,
+    larvae,
+    meat,
+    cost,
+    costMeat,
+    twin,
+  } = computedStats({ bugIndex });
+
+
+  const units = amount / 2 ** twin;
+
+  function handleClick() {
+    console.log("GROW CLICKED", { amount, bug });
+    dispatch(changeBugQuantity({ bugName: bug, diff: amount }));
+    if (bug != "Drone") {
+      dispatch(changeBugQuantity({ bugName: child, diff: -units * cost }));
+    }
+    dispatch(changeBugQuantity({ bugName: "Meat", diff: -units * costMeat }));
+    dispatch(changeResource({ name: "Larvae", diff: -units }));
+  }
+
+  return (
+    <ButtonTemplate
+      amount={amount}
+      widthMultiple={widthMultiple}
+      handleClick={handleClick}
+      verb="Grow"
+    />
+  );
+}
+
+
 export default function GrowButtonArray({ bugIndex }) {
   const {
     bug,
@@ -35,30 +72,6 @@ export default function GrowButtonArray({ bugIndex }) {
     formattedTwinAmount,
   } = computedStats({ bugIndex });
 
-  function GrowButton({ amount, widthMultiple }) {
-    const dispatch = useDispatch();
-    const units = amount / 2 ** twin;
-
-    function handleClick() {
-      console.log("GROW CLICKED", { amount, bug });
-      dispatch(changeBugQuantity({ bugName: bug, diff: amount }));
-      if (bug != "Drone") {
-        dispatch(changeBugQuantity({ bugName: child, diff: -units * cost }));
-      }
-      dispatch(changeBugQuantity({ bugName: "Meat", diff: -units * costMeat }));
-      dispatch(changeResource({ name: "Larvae", diff: -units }));
-    }
-
-    return (
-      <ButtonTemplate
-        amount={amount}
-        widthMultiple={widthMultiple}
-        handleClick={handleClick}
-        verb="Grow"
-      />
-    );
-  }
-
   let maxBuy;
   if (bug === "Drone") {
     maxBuy = Math.floor(Math.min(meat / costMeat, larvae));
@@ -79,6 +92,6 @@ export default function GrowButtonArray({ bugIndex }) {
   }
 
   return (
-    <ButtonsArray bugIndex={bugIndex} button={GrowButton} options={options} />
+    <ButtonsArray bugIndex={bugIndex} button={(props) => <GrowButton {...props}  />} options={options} />
   );
 }

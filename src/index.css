@@ -112,3 +112,15 @@ body {
   border: 1px solid #dedede;
   color: #7a7a7a;
 }
+.bug-style {
+  position: relative;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: 1px solid #dddddd;
+  padding-left: 2.7em;
+  padding-top: .9em;
+  padding-bottom: .9em;
+  padding-right: 1em;
+  width: 210px;
+}

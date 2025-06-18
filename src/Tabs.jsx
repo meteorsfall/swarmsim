@@ -13,10 +13,6 @@ import { selectBugAttr } from "../store/bugsSlice";
 
 export default function Tabs() {
   const resources = useSelector(selectResources);
-  const bug_quantities = Object.fromEntries(
-    bugNames.map((bug) => [bug, useSelector(selectBugAttr(bug, "quantity"))]),
-  );
-  const combined = { ...resources, ...bug_quantities };
   const dispatch = useDispatch();
   const showIcons = [
     false,
@@ -31,26 +27,17 @@ export default function Tabs() {
     true,
     false,
   ];
-  const namedAmount = (key) => formatSwarmNumber(combined[key]);
+  const namedAmount = (key) => formatSwarmNumber(resources[key]);
   const [pageIndex, setPageIndex] = useState(3);
 
-  function Bug({ bugIndex, quantity, showIcon = false }) {
+  function Bug({ bugIndex, showIcon = false }) {
     const bug = bugNames[bugIndex];
+    const quantity = formatSwarmNumber(useSelector(selectBugAttr(bug, "quantity")));
     return (
       <div
-        className={`tabBug ${pageIndex === bugIndex ? "active" : ""}`}
+        className={`tabBug ${pageIndex === bugIndex ? "active" : ""} bug-style`}
         onClick={() => setPageIndex(bugIndex)}
         style={{
-          position: "relative",
-          borderLeft: "none",
-          borderRight: "none",
-          borderTop: "none",
-          borderBottom: "1px solid #dddddd",
-          paddingLeft: "2.7em",
-          paddingTop: ".9em",
-          paddingBottom: ".9em",
-          paddingRight: "1em",
-          width: "210px",
         }}
       >
         {bug}
@@ -109,7 +96,6 @@ export default function Tabs() {
             <Bug
               key={i}
               bugIndex={i}
-              quantity={namedAmount(bug)}
               showIcon={showIcons[i]}
             />
           ))}
