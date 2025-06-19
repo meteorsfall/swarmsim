@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
-import { bugNames, bugCards } from "./constants";
+import { bugNames, bugCards } from "./helpers/constants";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectResources,
@@ -11,7 +11,7 @@ import {
 } from "../store/store";
 import { selectBugAttr, changeBugQuantity } from "../store/bugsSlice";
 import { ProgressBarFaster, ProgressBarTwin } from "./ProgressBar";
-import computedStats from "./computedStats";
+import computedStats from "./helpers/computedStats";
 
 export function ButtonTemplate({ amount, widthMultiple, handleClick, verb }) {
   const width = 282;
@@ -29,7 +29,7 @@ export function ButtonTemplate({ amount, widthMultiple, handleClick, verb }) {
     return (
       <div
         className="button"
-        onClick={handleClick}
+        onMouseDown={handleClick}
         style={{ width: `${width * widthMultiple}px` }}
       >
         {verb} {formatSwarmNumber(amount)}

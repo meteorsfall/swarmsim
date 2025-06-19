@@ -1,7 +1,8 @@
 import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
-import { bugCards } from "../src/constants";
+import { bugCards } from "../src/helpers/constants";
 
 const initialState = {
+  /*
   Meat: {
     quantity: 174e102,
   },
@@ -88,8 +89,8 @@ const initialState = {
     twin: 0,
     reached66: false,
     bought: false,
-  }, /*
-    Meat: {
+  }, */
+  Meat: {
         quantity: 35,
   },
   Drone: {
@@ -175,7 +176,7 @@ const initialState = {
     twin: 0,
     reached66: false,
     bought: false,
-  },*/
+  },
 };
 
 const bugsSlice = createSlice({
@@ -192,6 +193,7 @@ const bugsSlice = createSlice({
     },
     changeBugQuantity: (state, action) => {
       const { bugName, diff } = action.payload;
+      console.log("[changeBugQuantity]", bugName, diff);
       state[bugName].quantity += diff;
     },
     changeBugAttr: (state, action) => {
@@ -202,6 +204,7 @@ const bugsSlice = createSlice({
       for (const bug of Object.keys(state)) {
         const child = bugCards[bug]?.child;
         if (!child) continue;
+        if (prod <= 0) continue;
         const prod = bugCards[bug]?.production || 0;
         const multiplier = 2 ** (state[bug]?.faster || 0);
         state[child].quantity += prod * multiplier * state[bug].quantity;

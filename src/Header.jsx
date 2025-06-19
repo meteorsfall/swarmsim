@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { bugNames } from "./constants";
+import { bugNames } from "./helpers/constants";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectQuantities,

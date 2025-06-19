@@ -33,3 +33,11 @@ export function formatDuration(seconds) {
 }
 
 
+export  function capitalizeFirst(str) {
+        str = str.toLowerCase();
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+export function lowercaseFirst(str) {
+  return str.charAt(0).toLowerCase() + str.slice(1);
+}

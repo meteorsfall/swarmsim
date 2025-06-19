@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
-import { bugNames, bugCards } from "./constants";
+import { bugNames, bugCards } from "./helpers/constants";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectResources,
@@ -9,9 +9,9 @@ import {
   formatSwarmNumber,
 } from "../store/store";
 import { selectBugAttr, changeBugQuantity, changeBugAttr } from "../store/bugsSlice";
-import computedStats from "./computedStats";
+import computedStats from "./helpers/computedStats";
 import ButtonsArray, {ButtonTemplate} from "./ButtonsArray";
-import {formatDuration} from "./helperFunctions";
+import {formatDuration, capitalizeFirst} from "./helpers/helperFunctions";
 
 export default function ProgressBar({ bugIndex, isFaster }) {
 
@@ -35,11 +35,6 @@ export default function ProgressBar({ bugIndex, isFaster }) {
         formattedTwinAmount,
     } = computedStats({ bugIndex });
 
-
-    function capitalizeFirst(str) {
-        str = str.toLowerCase();
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
 
     function FasterDescription(){
         return (
@@ -185,7 +180,7 @@ export default function ProgressBar({ bugIndex, isFaster }) {
                         {percent}% {formatDuration(secondsLeft)}
                     </div>
                 </div>
-                <ButtonsArray bugIndex={bugIndex} button={BuyButton} options={options}/>
+                <ButtonsArray bugIndex={bugIndex} button={(props) => (<BuyButton {...props} isFaster={isFaster} />)} options={options}/>
             </div>
         </div>
     );

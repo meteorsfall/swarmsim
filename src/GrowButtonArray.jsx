@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
-import { bugNames, bugCards } from "./constants";
+import { bugNames, bugCards } from "./helpers/constants";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectResources,
@@ -11,7 +11,7 @@ import {
 } from "../store/store";
 import { selectBugAttr, changeBugQuantity } from "../store/bugsSlice";
 import { ProgressBarFaster, ProgressBarTwin } from "./ProgressBar";
-import computedStats from "./computedStats";
+import computedStats from "./helpers/computedStats";
 import ButtonsArray, { ButtonTemplate } from "./ButtonsArray";
 
 function GrowButton({ amount, widthMultiple, bugIndex }) {
@@ -92,6 +92,6 @@ export default function GrowButtonArray({ bugIndex }) {
   }
 
   return (
-    <ButtonsArray bugIndex={bugIndex} button={(props) => <GrowButton {...props}  />} options={options} />
+    <ButtonsArray bugIndex={bugIndex} button={(props) => <GrowButton {...props} bugIndex={bugIndex}  />} options={options} />
   );
 }

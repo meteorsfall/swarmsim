@@ -4,7 +4,7 @@ import Header from "./Header";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Tabs from "./Tabs";
 import "./index.css";
-import { bugNames, bugCards } from "./constants";
+import { bugNames, bugCards } from "./helpers/constants";
 import {
   selectResources,
   updateResource,

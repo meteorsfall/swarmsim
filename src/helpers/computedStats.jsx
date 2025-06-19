@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./index.css";
+import ".././index.css";
 import { bugNames, bugCards } from "./constants";
 import { useSelector } from "react-redux";
 import {
@@ -7,8 +7,8 @@ import {
   updateResource,
   store,
   formatSwarmNumber,
-} from "../store/store";
-import { selectBugAttr } from "../store/bugsSlice";
+} from "../../store/store";
+import { selectBugAttr } from "../../store/bugsSlice";
 
 export default function computedStats({ bugIndex }) {
   const bug = bugNames[bugIndex];
