@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./index.css";
-import { bugNames, bugCards } from "./helpers/constants";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectResources,
@@ -9,26 +8,19 @@ import {
   store,
   formatSwarmNumber,
 } from "../store/store";
-import { selectBugAttr, changeBugQuantity } from "../store/bugsSlice";
 import ProgressBar from "./ProgressBar";
 import computedStats from "./helpers/computedStats";
 import Description from "./Description";
 import GrowButtonArray from "./GrowButtonArray";
-import { selectLarvae, selectProduction } from "../store/larvaeSlice";
 
-export default function LarvaePages() {
-  const resources = useSelector(selectResources);
-  const larvae = useSelector(selectLarvae);
-  const production = useSelector(selectProduction);
+export default function TerritoryPages() {
 
   function PageBeginning() {
     return (
       <div>
-        <div className="blue page-name"> Larvae </div>
+        <div className="blue page-name"> Swarmling </div>
         <div className="bug-description">
-          <div> The children of your swarm. These young creatures morph into other adult ones. </div>
-          <div> You own {formatSwarmNumber(larvae, true)} larvae. </div>
-          <div> You earn {formatSwarmNumber(production, true)} larvae per second. </div>
+          dfsj
         </div>
       </div>
     );
@@ -55,12 +47,29 @@ export default function LarvaePages() {
     )
   }
 
-
   return (
     <div className="page-layout">
       <PageBeginning />
       <hr className="horizontal-rule" style={{ marginTop: "1.5em" }} />
       <div style={{ marginTop: ".7em" }}>
+        <div>
+          Growing{" "}
+          <span style={{}}>
+            <input
+              type="text"
+              defaultValue="1"
+              style={{
+                height: "2em",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                color: "#999999",
+                paddingLeft: "1em",
+                width: "190px",
+              }}
+            ></input>{" "}
+          </span>
+          larva.
+        </div>
         <div
           style={{
             marginTop: ".9em",

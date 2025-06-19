@@ -11,6 +11,8 @@ import {
 } from "../store/store";
 import { selectBugAttr } from "../store/bugsSlice";
 import {capitalizeFirst, lowercaseFirst} from "./helpers/helperFunctions";
+import { selectLarvae } from "../store/larvaeSlice";
+import { selectTerritory } from "../store/territorySlice";
 
 export default function Tabs() {
   const resources = useSelector(selectResources);
@@ -72,15 +74,18 @@ export default function Tabs() {
           ></i>
         </div>
       </div>
-    );
+    )
   }
 
   function Tab({resourceType}){
     let quantity;
     if (resourceType == "Larvae"){
-      quantity = namedAmount("Larvae")
+      quantity = formatSwarmNumber(useSelector(selectLarvae))
     } else if (resourceType == "Meat"){
       quantity = formatSwarmNumber(useSelector(selectBugAttr("Meat", "quantity")))
+    } else if (resourceType == "Territory"){
+      quantity = formatSwarmNumber(useSelector(selectTerritory))
+      console.log("Territory:", useSelector(selectTerritory));
     }
     return (
       <div
@@ -106,11 +111,7 @@ export default function Tabs() {
         </div> */}
         <Tab resourceType="Meat" />
         <Tab resourceType="Larvae" />
-        {/*<div className="tab">
-          {" "}
-          {namedAmount("Territory")} territory
-          <i class="fa-solid fa-circle-arrow-up icon-space"></i>
-        </div> */}
+        <Tab resourceType="Territory" />
         {/* <div className="tab"> {namedAmount("Energy")} energy (69%) </div> */}
         {/* <div className="tab"> {namedAmount("Mutagen")} mutagen (+10.9B) </div>
         <div className="tab"> More... </div> */}

@@ -13,6 +13,7 @@ import { selectBugAttr, changeBugQuantity } from "../store/bugsSlice";
 import { ProgressBarFaster, ProgressBarTwin } from "./ProgressBar";
 import computedStats from "./helpers/computedStats";
 import ButtonsArray, { ButtonTemplate } from "./ButtonsArray";
+import { changeLarvae } from "../store/larvaeSlice";
 
 function GrowButton({ amount, widthMultiple, bugIndex }) {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function GrowButton({ amount, widthMultiple, bugIndex }) {
       dispatch(changeBugQuantity({ bugName: child, diff: -units * cost }));
     }
     dispatch(changeBugQuantity({ bugName: "Meat", diff: -units * costMeat }));
-    dispatch(changeResource({ name: "Larvae", diff: -units }));
+    dispatch(changeLarvae({ diff: -units }));
   }
 
   return (

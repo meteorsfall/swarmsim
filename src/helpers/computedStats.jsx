@@ -9,6 +9,7 @@ import {
   formatSwarmNumber,
 } from "../../store/store";
 import { selectBugAttr } from "../../store/bugsSlice";
+import { selectLarvae } from "../../store/larvaeSlice";
 
 export default function computedStats({ bugIndex }) {
   const bug = bugNames[bugIndex];
@@ -21,7 +22,7 @@ export default function computedStats({ bugIndex }) {
   const fasterAmount = 66 * (666 ** faster);
   const formattedFasterAmount = formatSwarmNumber(fasterAmount);
   const resources = useSelector(selectResources);
-  const larvae = resources["Larvae"];
+  const larvae = useSelector(selectLarvae);
   const meat = useSelector(selectBugAttr("Meat", "quantity"));
   const cost = bugCards[bug]["cost"];
   const costMeat = bugCards[bug]["costMeat"];

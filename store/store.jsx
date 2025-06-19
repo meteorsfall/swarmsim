@@ -1,6 +1,8 @@
 import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
 import bugsReducer from "./bugsSlice";
 import { UNITS, LONGUNITS } from "../src/helpers/constants";
+import larvaeReducer from "./larvaeSlice";
+import territoryReducer from "./territorySlice";
 
 export function formatSwarmNumber(num, isLong = false) {
   let sigFigs = 3;
@@ -20,13 +22,9 @@ export function formatSwarmNumber(num, isLong = false) {
 }
 
 const initialState = {
-/*  Larvae: 21.1e15,
-  Territory: 85.4e72,
-  Energy: 150000,
+/* Energy: 150000,
   Mutagen: 8.32e12,
 */
-  Larvae: 1e14,
-  Territory: 0,
   Energy: 0,
   Mutagen: 0,
 };
@@ -57,5 +55,7 @@ export const store = configureStore({
   reducer: {
     resources: resourcesSlice.reducer,
     bugs: bugsReducer,
+    larvae: larvaeReducer,
+    territory: territoryReducer,
   },
 });

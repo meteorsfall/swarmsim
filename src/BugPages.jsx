@@ -14,6 +14,7 @@ import ProgressBar from "./ProgressBar";
 import computedStats from "./helpers/computedStats";
 import Description from "./Description";
 import GrowButtonArray from "./GrowButtonArray";
+import { PageBeginning } from "./Pages";
 
 export default function Pages({ bugIndex }) {
   const {
@@ -35,15 +36,6 @@ export default function Pages({ bugIndex }) {
     twinAmount,
     formattedTwinAmount,
   } = computedStats({ bugIndex });
-
-  function PageBeginning() {
-    return (
-      <div>
-        <div className="blue page-name">{bug}</div>
-        <Description bugIndex={bugIndex} />
-      </div>
-    );
-  }
 
     function Progress(){
         if (bugIndex == 0){
@@ -74,14 +66,14 @@ export default function Pages({ bugIndex }) {
   if (bug === "Meat") {
     return (
       <div className="page-layout">
-        <PageBeginning />
+        <PageBeginning title={bug} description={<Description bugIndex={bugIndex} /> }  />
       </div>
     );
   }
 
   return (
     <div className="page-layout">
-      <PageBeginning />
+      <PageBeginning title={bug} description={<Description bugIndex={bugIndex} /> } />
       <hr className="horizontal-rule" style={{ marginTop: "1.5em" }} />
       <div style={{ marginTop: ".7em" }}>
         <div>
